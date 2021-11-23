@@ -19,6 +19,13 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from .. import sudo_users
 
+reply_markup = InlineKeyboardMarkup([
+    [InlineKeyboardButton("Support", url="https://t.me/joinchat/4PQUG5J6aRI3NGQ1"),
+     InlineKeyboardButton("Channel", url="https://t.me/WeebZoneIndia")],
+    [InlineKeyboardButton("Developer", url="https://github.com/WeebTime/"),
+     InlineKeyboardButton("Source", url="https://github.com/WeebTime/Video-Encoder-Bot")]
+])
+
 
 @Client.on_message(filters.command(['start', 'help']))
 async def start_message(app, message):
@@ -27,10 +34,4 @@ async def start_message(app, message):
         text = f"Hey! I'm <a href='https://telegra.ph/file/11379aba315ba245ebc7b.jpg'>VideoEncoder</a>,\nI can encode telegram files in x264, just send me a video."
     else:
         text = f"Hey! I'm <a href='https://telegra.ph/file/11379aba315ba245ebc7b.jpg'>VideoEncoder</a>,\nI can encode telegram files in x264 but unfourtunately you have to deploy one for yourself."
-    reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton("Support", url="https://t.me/joinchat/4PQUG5J6aRI3NGQ1"),
-         InlineKeyboardButton("Channel", url="https://t.me/WeebZoneIndia")],
-        [InlineKeyboardButton("Developer", url="https://github.com/WeebTime/"),
-         InlineKeyboardButton("Source", url="https://github.com/WeebTime/Video-Encoder-Bot")]
-    ])
     await message.reply(text=text, reply_markup=reply_markup)

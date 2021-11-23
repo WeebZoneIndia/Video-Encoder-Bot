@@ -16,6 +16,7 @@
 
 from pyrogram import Client, filters
 from .. import sudo_users, data
+from .start import reply_markup
 from ..utils.tasks import handle_task
 
 video_mimetype = [
@@ -35,8 +36,15 @@ video_mimetype = [
 ]
 
 
-@Client.on_message(filters.user(sudo_users) & filters.incoming & (filters.video | filters.document))
+@Client.on_message(filters.incoming & (filters.video | filters.document))
 async def encode_video(app, message):
+    user_id = message.from_user.id
+    if user_id in sudo_users:
+        pass
+    else:
+        text = f"Hey! I'm <a href='https://telegra.ph/file/11379aba315ba245ebc7b.jpg'>VideoEncoder</a>,\nI can encode telegram files in x264 but unfourtunately you have to deploy one for yourself."
+        message.reply(text=text, reply_markup=reply_markup)
+        return
     if message.document:
         if not message.document.mime_type in video_mimetype:
             return

@@ -41,7 +41,7 @@ async def handle_task(message: Message):
             progress=progress_for_pyrogram,
             progress_args=("Downloading...", msg, c_time))
         await msg.edit_text('<code>Encoding...</code>')
-        new_file = await encode(filepath, message, msg)
+        new_file = await encode(filepath)
         if new_file:
             await msg.edit_text("<code>Video Encoded, getting metadata...</code>")
             await handle_upload(new_file, message, msg)

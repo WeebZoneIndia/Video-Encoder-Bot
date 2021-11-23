@@ -23,7 +23,7 @@ Add values in environment variables or add them in [config.env.example](/VideoEn
 - `ENCODE_DIR` -(Optional) Temporary encode directory to keep encoded files.
 
 ### Configuring Encoding Format
-To change the ffmpeg profile edit them in [ffmpeg.py](/bot/utils/ffmpeg.py)
+To change the ffmpeg profile edit them in [ffmpeg.py](/VideoEncoder/utils/ffmpeg.py)
 
 ### Deployment
 With python3.7 or later.
