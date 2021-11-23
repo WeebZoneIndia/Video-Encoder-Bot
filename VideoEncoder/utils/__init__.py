@@ -1,12 +1,11 @@
 from pyrogram import filters
 from pyrogram.errors import RPCError
-from . import ffmpeg
-from . import progress
-from . import tasks
-from .. import app as a
 
-sauce = '''<b>VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.
-Copyright (c) 2021 WeebTime/VideoEncoder</b>
+from .. import app as a
+from . import buttons, ffmpeg, progress, tasks
+
+sauce = '''<b>VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.</b>
+Copyright (c) 2021 WeebTime/VideoEncoder
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -21,9 +20,10 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see .'''
 
+
 @a.on_message(filters.command('so' 'ur' 'ce'))
 async def g_s(_, message):
     try:
-        await message.reply_text(sauce)
+        await message.reply(text=sauce, reply_markup=buttons.output)
     except RPCError:
         pass

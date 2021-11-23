@@ -22,6 +22,7 @@ from pyrogram.errors.exceptions.bad_request_400 import (MessageIdInvalid,
 from pyrogram.types import Message
 
 from .. import data, download_dir, upload_doc
+from .buttons import output
 from .ffmpeg import encode, get_duration, get_thumbnail
 from .progress import progress_for_pyrogram
 
@@ -64,13 +65,14 @@ async def handle_upload(new_file, message, msg):
     filename = os.path.basename(new_file)
     duration = get_duration(new_file)
     thumb = get_thumbnail(new_file, download_dir, duration / 4)
-    height = 1280
-    width = 720
+    height = 720
+    width = 1280
     # Upload
     if upload_doc is True:
         await message.reply_document(
             new_file,
             caption=filename,
+            reply_markup=output,
             parse_mode=None,
             progress=progress_for_pyrogram,
             progress_args=("Uploading ...", msg, c_time)
@@ -80,6 +82,7 @@ async def handle_upload(new_file, message, msg):
             new_file,
             supports_streaming=True,
             parse_mode=None,
+            reply_markup=output,
             caption=filename,
             thumb=thumb,
             duration=duration,
@@ -88,4 +91,3 @@ async def handle_upload(new_file, message, msg):
             progress=progress_for_pyrogram,
             progress_args=("Uploading ...", msg, c_time)
         )
-        
