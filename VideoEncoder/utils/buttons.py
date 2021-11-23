@@ -16,8 +16,8 @@ output = InlineKeyboardMarkup([
 async def check_user(message):
     user_id = message.from_user.id
     if user_id in sudo_users:
-        pass
+        return 'Sudo'
     else:
         text = f"Hey! I'm <a href='https://telegra.ph/file/11379aba315ba245ebc7b.jpg'>VideoEncoder</a>,\nI can encode telegram files in x264 but unfourtunately you have to deploy one for yourself."
         await message.reply(text=text, reply_markup=start)
-        return
+        return None
