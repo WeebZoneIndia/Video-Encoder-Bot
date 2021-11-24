@@ -15,17 +15,48 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
 
-from .. import sudo_users
-from ..utils.buttons import start, check_user
+from ..utils.utils import check_user, start, output
 
 
-@Client.on_message(filters.command(['start', 'help']))
+@Client.on_message(filters.command('start'))
 async def start_message(app, message):
-    user_id = message.from_user.id
-    if user_id in sudo_users:
-        text = f"Hey! I'm <a href='https://telegra.ph/file/11379aba315ba245ebc7b.jpg'>VideoEncoder</a>,\nI can encode telegram files in x264, just send me a video."
-        await message.reply(text=text, reply_markup=start)
+    check = await check_user(message)
+    if check is None:
+        return
     else:
-        await check_user(message)
+        pass
+    text = f"Hey! I'm <a href='https://telegra.ph/file/11379aba315ba245ebc7b.jpg'>VideoEncoder</a>. I can encode telegram files in x264.\n\nPress /help for my commands :)"
+    await message.reply(text=text, reply_markup=start)
+
+
+@Client.on_message(filters.command('help'))
+async def help_message(app, message):
+    check = await check_user(message)
+    if check is None:
+        return
+    else:
+        pass
+    text = f"""<b>Commands:</b>
+• AutoDetect Telegram Files.
+• /help - Commands List.
+• /start - Introduction.
+• /sthumb - Save Thumb
+• /dthumb - Clear Thumb.
+• /logs - check logs."""
+    await message.reply(text=text, reply_markup=output)
+
+
+@Client.on_message(filters.command('logs'))
+async def logs(app, message):
+    check = await check_user(message)
+    if check is None:
+        return
+    else:
+        pass
+    file = 'VideoEncoder/utils/logs.txt'
+    await message.reply_document(
+        file,
+        caption='#Logs'
+    )

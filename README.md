@@ -18,9 +18,10 @@ Add values in environment variables or add them in [config.env.example](/VideoEn
 - `AUDIO` - [https://telegra.ph/Encode-Settings-Guide-11-22](https://telegra.ph/Encode-Settings-Guide-11-22)
 
 **Optional**
-- `UPLOAD_AS_DOC` - (Optional) Uploads Video as doc if `True` else `False`.
+- `DOC_THUMB` - (Optional) Thumbnail for document
+- `UPLOAD_AS_DOC` - (Optional) Uploads Video as doc if `1` else `0`.
 - `DOWNLOAD_DIR` - (Optional) Temporary download directory to keep downloaded files.
-- `ENCODE_DIR` -(Optional) Temporary encode directory to keep encoded files.
+- `ENCODE_DIR` - (Optional) Temporary encode directory to keep encoded files.
 
 ### Configuring Encoding Format
 To change the ffmpeg profile edit them in [ffmpeg.py](/VideoEncoder/utils/ffmpeg.py)
@@ -29,7 +30,7 @@ To change the ffmpeg profile edit them in [ffmpeg.py](/VideoEncoder/utils/ffmpeg
 With python3.7 or later.
 ```
 pip3 install --no-cache-dir -r requirements.txt
-python3 -m VideoEncoder
+bash run.sh
 ```
 
 ### Credits

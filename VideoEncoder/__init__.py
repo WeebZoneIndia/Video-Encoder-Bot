@@ -16,6 +16,7 @@
 
 import logging
 import os
+from logging.handlers import RotatingFileHandler
 
 from dotenv import load_dotenv
 from pyrogram import Client
@@ -28,15 +29,19 @@ if os.path.exists('VideoEncoder/config.env'):
 api_id = int(os.environ.get("API_ID"))
 api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
-sudo_users = list(set(int(x) for x in os.environ.get("SUDO_USERS").split()))
+sudo_users = list(set(int(x)
+                  for x in os.environ.get("SUDO_USERS").split()))
 # Optional
-download_dir = os.environ.get("DOWNLOAD_DIR", "VideoEncoder/utils/downloads/")
-encode_dir = os.environ.get("ENCODE_DIR", "VideoEncoder/utils/encodes/")
-upload_doc = os.environ.get("UPLOAD_AS_DOC", False)
+download_dir = os.environ.get("DOWNLOAD_DIR")
+encode_dir = os.environ.get("ENCODE_DIR")
+upload_doc = os.environ.get("UPLOAD_AS_DOC")
+upload_doc = upload_doc and upload_doc != '0'
+doc_thumb = os.environ.get("DOC_THUMB")
+doc_thumb = doc_thumb and doc_thumb != '0'
 # Encode Settings
-preset = os.environ.get("PRESET", 'sf')
-tune = os.environ.get("TUNE", "film")
-audio = os.environ.get("AUDIO", "opus")
+preset = os.environ.get("PRESET")
+tune = os.environ.get("TUNE")
+audio = os.environ.get("AUDIO")
 
 SOURCE_MESSAGE = '''
 # VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.
@@ -72,7 +77,23 @@ if not os.path.isdir(encode_dir):
     os.makedirs(encode_dir)
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    handlers=[
+        RotatingFileHandler(
+            'VideoEncoder/utils/logs.txt',
+            backupCount=20
+        ),
+        logging.StreamHandler()
+    ]
+)
+
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+
+LOGGER = logging.getLogger(__name__)
 
 app = Client(
     "VideoEncoder",

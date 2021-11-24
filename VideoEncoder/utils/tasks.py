@@ -21,10 +21,10 @@ from pyrogram.errors.exceptions.bad_request_400 import (MessageIdInvalid,
                                                         MessageNotModified)
 from pyrogram.types import Message
 
-from .. import data, download_dir, upload_doc
-from .buttons import output
+from .. import data, download_dir, upload_doc, doc_thumb
 from .ffmpeg import encode, get_duration, get_thumbnail
 from .progress import progress_for_pyrogram
+from .utils import output
 
 
 async def on_task_complete():
@@ -61,16 +61,24 @@ async def handle_task(message: Message):
 
 async def handle_upload(new_file, message, msg):
     # Variables
+    user_id = message.from_user.id
     c_time = time.time()
     filename = os.path.basename(new_file)
     duration = get_duration(new_file)
-    thumb = get_thumbnail(new_file, download_dir, duration / 4)
+    thumb = os.path.join(str(user_id), 'thumbnail.jpg')
     height = 720
     width = 1280
-    # Upload
+    if not os.path.isfile(thumb):
+        thumb = get_thumbnail(new_file, download_dir, duration / 4)
+    # Upload File
     if upload_doc is True:
+        if doc_thumb:
+            thumb = thumb
+        else:
+            thumb = None
         await message.reply_document(
             new_file,
+            thumb=thumb,
             caption=filename,
             reply_markup=output,
             parse_mode=None,

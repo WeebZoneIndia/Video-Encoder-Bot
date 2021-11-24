@@ -36,7 +36,7 @@ LICENSE_HEADER = '''
 '''.strip()
 
 missing_header = False
-for file in glob.iglob('lazyleech/**/*.py', recursive=True):
+for file in glob.iglob('VideoEncoder/**/*.py', recursive=True):
     with open(file, 'r') as fileobj:
         file_header = fileobj.read(len(LICENSE_HEADER))
     if file_header != LICENSE_HEADER:

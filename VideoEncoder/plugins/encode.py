@@ -16,9 +16,9 @@
 
 from pyrogram import Client, filters
 
-from .. import data, sudo_users
+from .. import data
 from ..utils.tasks import handle_task
-from ..utils.buttons import check_user
+from ..utils.utils import check_user
 
 video_mimetype = [
     "video/x-flv",
@@ -42,7 +42,7 @@ async def encode_video(app, message):
     check = await check_user(message)
     if check is None:
         return
-    else: 
+    else:
         pass
     if message.document:
         if not message.document.mime_type in video_mimetype:
