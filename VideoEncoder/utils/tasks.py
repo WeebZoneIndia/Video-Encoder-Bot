@@ -16,6 +16,9 @@
 
 import os
 import time
+import subprocess
+import shlex
+import json
 
 from pyrogram.errors.exceptions.bad_request_400 import (MessageIdInvalid,
                                                         MessageNotModified)
@@ -31,6 +34,16 @@ async def on_task_complete():
     del data[0]
     if len(data) > 0:
         await handle_task(data[0])
+
+def get_height_width(filepath):
+    cmd = "ffprobe -v quiet -print_format json -show_streams"
+    args = shlex.split(cmd)
+    args.append(filepath)
+    output = subprocess.check_output(args).decode('utf-8')
+    output = json.loads(output)
+    height = output['streams'][0]['height']
+    width = output['streams'][0]['width']
+    return height, width
 
 
 async def handle_task(message: Message):
@@ -66,8 +79,7 @@ async def handle_upload(new_file, message, msg):
     filename = os.path.basename(new_file)
     duration = get_duration(new_file)
     thumb = os.path.join(str(user_id), 'thumbnail.jpg')
-    height = 720
-    width = 1280
+    height, width = get_height_width(new_file)
     if not os.path.isfile(thumb):
         thumb = get_thumbnail(new_file, download_dir, duration / 4)
     # Upload File
