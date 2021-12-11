@@ -21,7 +21,6 @@ import tempfile
 
 from pyrogram import Client, filters
 
-from .. import download_dir
 from ..utils.utils import check_user, convert_to_jpg, get_file_mimetype
 
 
@@ -30,8 +29,6 @@ async def savethumbnail(client, message):
     check = await check_user(message)
     if check is None:
         return
-    else:
-        pass
     reply = message.reply_to_message
     document = message.document
     photo = message.photo
@@ -60,14 +57,19 @@ async def savethumbnail(client, message):
                         thumbset = True
     if thumbset:
         await message.reply_text('Thumbnail set')
+        print(f'[Thumbnail]: {thumbnail_path}')
     else:
         await message.reply_text('Cannot find thumbnail')
 
 
 @Client.on_message(filters.command('dthumb'))
 async def rmthumbnail(client, message):
+    check = await check_user(message)
+    if check is None:
+        return
     for path in ('thumbnail'):
         path = os.path.join(str(message.from_user.id), f'{path}.jpg')
         if os.path.isfile(path):
             os.remove(path)
+            print(f'[Thumbnail] [Delete]: {path}')
     await message.reply_text('Thumbnail cleared')

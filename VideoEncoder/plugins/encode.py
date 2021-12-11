@@ -42,8 +42,6 @@ async def encode_video(app, message):
     check = await check_user(message)
     if check is None:
         return
-    else:
-        pass
     if message.document:
         if not message.document.mime_type in video_mimetype:
             return

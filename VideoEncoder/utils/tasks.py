@@ -21,7 +21,7 @@ from pyrogram.errors.exceptions.bad_request_400 import (MessageIdInvalid,
                                                         MessageNotModified)
 from pyrogram.types import Message
 
-from .. import data, download_dir, upload_doc, doc_thumb
+from .. import data, doc_thumb, download_dir, upload_doc
 from .ffmpeg import encode, get_duration, get_thumbnail
 from .progress import progress_for_pyrogram
 from .utils import output
@@ -41,6 +41,7 @@ async def handle_task(message: Message):
             file_name=download_dir,
             progress=progress_for_pyrogram,
             progress_args=("Downloading...", msg, c_time))
+        print(f'[Download]: {filepath}')
         await msg.edit_text('<code>Encoding...</code>')
         new_file = await encode(filepath)
         if new_file:
@@ -49,17 +50,19 @@ async def handle_task(message: Message):
             await msg.edit_text('Video Encoded Successfully!')
         else:
             await message.reply_text("<code>Something wents wrong while encoding your file.</code>")
-            os.remove(filepath)
+        os.remove(filepath)
     except MessageNotModified:
         pass
     except MessageIdInvalid:
         await msg.edit_text('Download Cancelled!')
     except Exception as e:
+        print(f'[Error]: {e}')
         await msg.edit_text(f"<code>{e}</code>")
     await on_task_complete()
 
 
 async def handle_upload(new_file, message, msg):
+    print(f'[Upload]: {new_file}')
     # Variables
     user_id = message.from_user.id
     c_time = time.time()
@@ -71,7 +74,7 @@ async def handle_upload(new_file, message, msg):
     if not os.path.isfile(thumb):
         thumb = get_thumbnail(new_file, download_dir, duration / 4)
     # Upload File
-    if upload_doc is True:
+    if upload_doc:
         if doc_thumb:
             thumb = thumb
         else:
@@ -99,3 +102,4 @@ async def handle_upload(new_file, message, msg):
             progress=progress_for_pyrogram,
             progress_args=("Uploading ...", msg, c_time)
         )
+    os.remove(new_file)

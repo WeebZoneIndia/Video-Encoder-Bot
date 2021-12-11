@@ -13,9 +13,11 @@ Add values in environment variables or add them in [config.env.example](/VideoEn
 - `SUDO_USERS` - Chat identifier of the sudo user. For multiple users use space as seperator.
 
 **Encode Settings**
-- `PRESET` - [https://telegra.ph/Encode-Settings-Guide-11-22](https://telegra.ph/Encode-Settings-Guide-11-22)
-- `TUNE` - [https://telegra.ph/Encode-Settings-Guide-11-22](https://telegra.ph/Encode-Settings-Guide-11-22)
-- `AUDIO` - [https://telegra.ph/Encode-Settings-Guide-11-22](https://telegra.ph/Encode-Settings-Guide-11-22)
+- `RESOLUTION` - [Click Here](https://weeb-zone.blogspot.com/p/encode-telegram-bot-guide.html)
+- `PRESET` - [Click Here](https://weeb-zone.blogspot.com/p/encode-telegram-bot-guide.html)
+- `TUNE` - [Click Here](https://weeb-zone.blogspot.com/p/encode-telegram-bot-guide.html)
+- `AUDIO` - [Click Here](https://weeb-zone.blogspot.com/p/encode-telegram-bot-guide.html)
+- `CRF` - [Click Here](https://weeb-zone.blogspot.com/p/encode-telegram-bot-guide.html)
 
 **Optional**
 - `DOC_THUMB` - (Optional) Thumbnail for document

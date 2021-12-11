@@ -24,8 +24,11 @@ from hachoir.parser import createParser
 
 import ffmpeg
 
-from .. import audio, encode_dir
+from .. import audio
+from .. import crf as c
+from .. import encode_dir
 from .. import preset as p
+from .. import resolution as r
 from .. import tune as t
 
 
@@ -43,14 +46,15 @@ async def encode(filepath):
     assert(output_filepath != filepath)
 
     if os.path.isfile(output_filepath):
-        print(f'Warning! "{output_filepath}": file already exists')
-    print(filepath)
+        print(f'[Encode] [Warning]: "{output_filepath}": file already exists')
+    else:
+        print('[Encode]: ' + filepath)
 
     # Codec and Bits
     codec = '-c:v libx264 -pix_fmt yuv420p'
 
     # CRF
-    crf = '-crf 28'
+    crf = f'-crf {c}'
 
     # Preset
     if p == 'uf':
@@ -88,12 +92,26 @@ async def encode(filepath):
         elif a == 'copy':
             audio_opts += ' -c:a copy'
 
+    # Resolution
+    if r == 'Source':
+        resolution = ''
+    elif r == '1080':
+        resolution = '-vf scale=1920:-2'
+    elif r == '720':
+        resolution = '-vf scale=1280:-2'
+    elif r == '480':
+        resolution = '-vf scale=720:-2'
+    elif r == '360':
+        resolution = '-vf scale=360:-2'
+    else:
+        resolution = ''
+
     finish = '-threads 8'
 
     # Finally
     command = ['ffmpeg', '-y', '-i', filepath]
     command.extend((codec.split() + preset.split() + video_opts.split() +
-                   crf.split() + subtitles.split() + audio_opts.split() + finish.split()))
+                   crf.split() + resolution.split() + subtitles.split() + audio_opts.split() + finish.split()))
     proc = await asyncio.create_subprocess_exec(*command, output_filepath, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     await proc.communicate()
     return output_filepath

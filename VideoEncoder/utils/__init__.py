@@ -18,7 +18,7 @@ from pyrogram import filters
 from pyrogram.errors import RPCError
 
 from .. import app as a
-from . import utils, ffmpeg, progress, tasks
+from . import ffmpeg, progress, tasks, utils
 
 sauce = '''<b>VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.</b>
 Copyright (c) 2021 WeebTime/VideoEncoder
