@@ -24,7 +24,7 @@ from . import app, sudo_users
 
 async def main():
     await app.start()
-    print(f'[Started]: @{{(await app.get_me()).username}}')
+    print(f'[Started]: @{(await app.get_me()).username}')
     await idle()
     await app.stop()
 
