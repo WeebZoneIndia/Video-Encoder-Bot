@@ -12,7 +12,7 @@
 # GNU Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 # Code Taken from github.com/WeebTime/Torrent-Bot-Lazyleech/blob/Master/lazyleech/utils/misc.py
 
@@ -27,7 +27,7 @@ from ..utils.utils import check_user, convert_to_jpg, get_file_mimetype
 @Client.on_message(filters.command('sthumb'))
 async def savethumbnail(client, message):
     check = await check_user(message)
-    if check is None:
+    if not check:
         return
     reply = message.reply_to_message
     document = message.document
@@ -65,7 +65,7 @@ async def savethumbnail(client, message):
 @Client.on_message(filters.command('dthumb'))
 async def rmthumbnail(client, message):
     check = await check_user(message)
-    if check is None:
+    if not check:
         return
     for path in ('thumbnail'):
         path = os.path.join(str(message.from_user.id), f'{path}.jpg')

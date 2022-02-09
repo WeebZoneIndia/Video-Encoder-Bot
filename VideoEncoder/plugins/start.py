@@ -24,7 +24,7 @@ from ..utils.utils import check_user, output, start
 @Client.on_message(filters.command('start'))
 async def start_message(app, message):
     check = await check_user(message)
-    if check is None:
+    if not check:
         return
     text = f"Hey! I'm <a href='https://telegra.ph/file/11379aba315ba245ebc7b.jpg'>VideoEncoder</a>. I can encode telegram files in x264.\n\nPress /help for my commands :)"
     await message.reply(text=text, reply_markup=start)
@@ -33,7 +33,7 @@ async def start_message(app, message):
 @Client.on_message(filters.command('help'))
 async def help_message(app, message):
     check = await check_user(message)
-    if check is None:
+    if not check:
         return
     text = f"""<b>Commands:</b>
 • AutoDetect Telegram Files.
@@ -49,14 +49,14 @@ async def help_message(app, message):
 @Client.on_message(filters.command('vset'))
 async def vset(app, message):
     check = await check_user(message)
-    if check is None:
+    if not check:
         return
     text = f'''<b>Encode Settings</b>
 Tune: <code>{tune}</code> | <code>Preset: {preset}</code>
 Audio: <code>{audio} | <code>CRF: {crf}</code>
 Resolution: <code>{resolution}</code>
 
-<b>Upload Settings<b>
+<b>Upload Settings</b>
 Upload Mode: <code>{'Document' if (upload_doc) else 'Video' }</code>
 Doc thumb: <code>{'True' if (doc_thumb) else 'False'}</code>
 
@@ -69,7 +69,7 @@ Doc thumb: <code>{'True' if (doc_thumb) else 'False'}</code>
 @Client.on_message(filters.command('logs'))
 async def logs(app, message):
     check = await check_user(message)
-    if check is None:
+    if not check:
         return
     file = 'VideoEncoder/utils/logs.txt'
     await message.reply_document(file, caption='#Logs')

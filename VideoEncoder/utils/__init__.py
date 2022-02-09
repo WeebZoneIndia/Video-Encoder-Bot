@@ -21,7 +21,7 @@ from .. import app as a
 from . import ffmpeg, progress, tasks, utils
 
 sauce = '''<b>VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.</b>
-Copyright (c) 2021 WeebTime/VideoEncoder
+Copyright (c) 2021 <a href='https://github.com/WeebTime/Video-Encoder-Bot'>WeebTime/Video-Encoder-Bot</a>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -40,6 +40,6 @@ along with this program. If not, see .'''
 @a.on_message(filters.command('so' 'ur' 'ce'))
 async def g_s(_, message):
     try:
-        await message.reply(text=sauce, reply_markup=utils.output)
+        await message.reply(text=sauce, reply_markup=utils.output, disable_web_page_preview=True)
     except RPCError:
         pass

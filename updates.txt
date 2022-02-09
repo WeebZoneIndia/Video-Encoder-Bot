@@ -30,3 +30,6 @@
 • New variables:
 [RESOLUTION, CRF]
 • updates.txt file for updates logs.
+
+──「 Update 1.4 」──
+• Small changes and fixes.
