@@ -1,0 +1,58 @@
+{
+    "name": "video-encoder-bot-1",
+    "repository": "https://github.com/Devilharsha/Video-Encoder-Bot",
+    "env": {
+        "API_ID": {
+            "description": "",
+            "required": "True"
+        },
+        "API_HASH": {
+            "description": "",
+            "required": "True"
+        },
+        "BOT_TOKEN": {
+            "description": "",
+            "required": "True"
+        },
+        "SUDO_USERS": {
+            "description": "",
+            "required": "True"
+        },
+        "PRESET": {
+            "description": "sf",
+            "required": "True"
+        },
+        "TUNE": {
+            "description": "film",
+            "required": "false"
+        },
+        "AUDIO": {
+            "description": "AAC",
+            "required": "false"
+        },
+        "UPLOAD_AS_DOC": {
+            "description": "0",
+            "required": "false"
+        },
+        "DOWNLOAD_DIR": {
+            "description": "VideoEncoder/utils/downloads/",
+            "required": "false"
+        },
+        "ENCODE_DIR": {
+            "description": "VideoEncoder/utils/encodes/",
+            "required": "false"
+        }
+  },
+   "addons": [{
+    "plan": "heroku-postgresql"
+  }],
+   "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ]
+}
+
