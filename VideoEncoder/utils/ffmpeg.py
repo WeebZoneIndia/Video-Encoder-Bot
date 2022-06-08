@@ -51,7 +51,7 @@ async def encode(filepath):
         print('[Encode]: ' + filepath)
 
     # Codec and Bits
-    codec = '-c:v libx264 -pix_fmt yuv420p'
+    codec = '-c:v copy -pix_fmt yuv420p'
 
     # CRF
     crf = f'-crf {c}'
@@ -69,7 +69,7 @@ async def encode(filepath):
         preset = '-preset medium'
 
     # Optional
-    video_opts = f'-tune {t} -map 0:v? -map_chapters 0 -map_metadata 0'
+    video_opts = f'-c:s copy map_chapters 0 -map_metadata 0'
 
     # Copy Subtitles
     subs_i = get_codec(filepath, channel='s:0')
@@ -110,8 +110,8 @@ async def encode(filepath):
 
     # Finally
     command = ['ffmpeg', '-y', '-i', filepath]
-    command.extend((codec.split() + preset.split() + video_opts.split() +
-                   crf.split() + resolution.split() + subtitles.split() + audio_opts.split() + finish.split()))
+    command.extend(( video_opts.split() +
+                   + resolution.split() + subtitles.split() + audio_opts.split() + finish.split()))
     proc = await asyncio.create_subprocess_exec(*command, output_filepath, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     await proc.communicate()
     return output_filepath
