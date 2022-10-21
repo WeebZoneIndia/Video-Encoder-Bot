@@ -72,7 +72,7 @@ def map(pos):
 
 async def queue_answer(app, callback_query):
     chatid = callback_query.from_user.id
-    messageid = callback_query.message.message_id
+    messageid = callback_query.message.id
     pos = int(callback_query.data.split('+')[1])
     if pos == -1:
         await callback_query.answer("no task", show_alert=True)
