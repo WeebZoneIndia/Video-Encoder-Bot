@@ -31,7 +31,7 @@ from .. import botStartTime, download_dir, encode_dir
 from ..utils.database.access_db import db
 from ..utils.database.add_user import AddUserToDatabase
 from ..utils.display_progress import TimeFormatter, humanbytes
-from ..utils.helper import check_chat, start_but, start
+from ..utils.helper import check_chat, start_but
 
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 

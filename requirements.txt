@@ -1,5 +1,5 @@
 # Required
-pyrogram==1.4.16
+pyrogram
 TgCrypto
 python-dotenv
 hachoir

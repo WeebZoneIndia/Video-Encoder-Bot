@@ -46,8 +46,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             text="{}\n{}".format(
                 ud_type,
                 tmp
-            ),
-            parse_mode='markdown'
+            )
         )
         await asyncio.sleep(5)
 

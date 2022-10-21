@@ -50,7 +50,7 @@ async def extract_subs(filepath, msg, user_id):
     elif check == 'pgs':
         return None
     else:
-        output = encode_dir + str(msg.message_id) + '.ass'
+        output = encode_dir + str(msg.id) + '.ass'
     subprocess.call(['ffmpeg', '-y', '-i', filepath, '-map', 's:0', output])
     subprocess.call(['mkvextract', 'attachments', filepath, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
                     '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40'])
@@ -73,7 +73,7 @@ async def encode(filepath, message, msg):
         output_filepathh = encode_dir + name[len(name)-1] + '.mkv'
 
     output_filepath = output_filepathh
-    subtitles_path = encode_dir + str(msg.message_id) + '.ass'
+    subtitles_path = encode_dir + str(msg.id) + '.ass'
 
     progress = download_dir + "process.txt"
     with open(progress, 'w') as f:
@@ -399,14 +399,14 @@ async def handle_progress(proc, msg, message, filepath):
     with open(status, 'w') as f:
         statusMsg = {
             'running': True,
-            'message': msg.message_id,
+            'message': msg.id,
             'user': message.from_user.id
         }
         json.dump(statusMsg, f, indent=2)
     with open(status, 'r+') as f:
         statusMsg = json.load(f)
         statusMsg['pid'] = proc.pid
-        statusMsg['message'] = msg.message_id
+        statusMsg['message'] = msg.id
         statusMsg['user'] = message.from_user.id
         f.seek(0)
         json.dump(statusMsg, f, indent=2)

@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from pyrogram import Client, filters
 from .. import LOGGER
 from . import (direct_link_generator, display_progress, ffmpeg, helper,
                settings, tasks)
@@ -34,7 +35,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see .'''
 
 
-@a.on_message(filters.command('so' 'ur' 'ce'))
+@Client.on_message(filters.command('so' 'ur' 'ce'))
 async def g_s(_, message):
     try:
         await message.reply(text=sauce, reply_markup=helper.output, disable_web_page_preview=True)
