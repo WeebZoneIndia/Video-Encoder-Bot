@@ -14,20 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import dns.resolver
-from pyrogram import idle
+from ... import database, session
+from .database import Database
 
-from . import app, log
-
-dns.resolver.default_resolver = dns.resolver.Resolver(configure=False)
-dns.resolver.default_resolver.nameservers = [
-    '8.8.8.8']  # this is a google public dns
-
-
-async def main():
-    await app.start()
-    await app.send_message(chat_id=log, text=f'<b>Bot Started! @{(await app.get_me()).username}</b>')
-    await idle()
-    await app.stop()
-
-app.loop.run_until_complete(main())
+db = Database(database, session)

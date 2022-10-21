@@ -1,4 +1,4 @@
-# VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.
+# VideoEncoder - a telegram bot for compressing/encoding videos in h264/h265 format.
 # Copyright (c) 2021 WeebTime/VideoEncoder
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,23 +14,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Basics #
-API_ID = 
-API_HASH = ""
-BOT_TOKEN = ""
+from ..database.access_db import db
+from .drive.upload import Uploader
+from .telegram import upload_to_tg
 
-# Authorization #
-SUDO_USERS = "" # List of sudo user's id, separated by space.
 
-# Encode Settings #
-RESOLUTION = "Source"
-PRESET = "sf"
-TUNE = "film"
-AUDIO = "opus"
-CRF = 28
-
-# Optional #
-DOC_THUMB = 0
-UPLOAD_AS_DOC = 0
-DOWNLOAD_DIR = "VideoEncoder/utils/downloads/"
-ENCODE_DIR = "VideoEncoder/utils/encodes/"
+async def upload_worker(new_file, message, msg):
+    if await db.get_drive(message.from_user.id):
+        link = await Uploader().upload_to_drive(new_file, message, msg)
+    else:
+        link = await upload_to_tg(new_file, message, msg)
+    return link

@@ -14,20 +14,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import dns.resolver
-from pyrogram import idle
+from pyrogram import Client
+from pyrogram.types import Message
 
-from . import app, log
-
-dns.resolver.default_resolver = dns.resolver.Resolver(configure=False)
-dns.resolver.default_resolver.nameservers = [
-    '8.8.8.8']  # this is a google public dns
+from ... import log
+from .access_db import db
 
 
-async def main():
-    await app.start()
-    await app.send_message(chat_id=log, text=f'<b>Bot Started! @{(await app.get_me()).username}</b>')
-    await idle()
-    await app.stop()
-
-app.loop.run_until_complete(main())
+async def AddUserToDatabase(bot: Client, cmd: Message):
+    if not await db.is_user_exist(cmd.from_user.id):
+        await db.add_user(cmd.from_user.id)
+        if log is not None:
+            await bot.send_message(
+                int(log),
+                f"<b>New User</b> \n\n<a href=f'tg://user?id={cmd.from_user.id}'>{cmd.from_user.first_name}</a> started @{(await bot.get_me()).username}!!"
+            )

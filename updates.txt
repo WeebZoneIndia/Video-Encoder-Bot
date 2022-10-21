@@ -33,3 +33,14 @@
 
 ──「 Update 1.4 」──
 • Small changes and fixes.
+
+──「 Update 1.5 」──
+**Major Update**
+- Removed thumbnail
+- Implemented Settings, Database Support.
+- Implemented Drive Upload/Download Support.
+- Implemented DDL Support.
+- Implemented Encode Status Bar Support.
+- Video and Metadata Watermark Support.
+- Implemented auth through comman.
+- Added Many Commands! Check /help for more info.

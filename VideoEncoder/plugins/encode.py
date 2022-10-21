@@ -1,4 +1,4 @@
-# VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.
+# VideoEncoder - a telegram bot for compressing/encoding videos in h264/h265 format.
 # Copyright (c) 2021 WeebTime/VideoEncoder
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,39 +14,64 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import asyncio
+
 from pyrogram import Client, filters
 
-from .. import data
-from ..utils.tasks import handle_task
-from ..utils.utils import check_user
-
-video_mimetype = [
-    "video/x-flv",
-    "video/mp4",
-    "application/x-mpegURL",
-    "video/MP2T",
-    "video/3gpp",
-    "video/quicktime",
-    "video/x-msvideo",
-    "video/x-ms-wmv",
-    "video/x-matroska",
-    "video/webm",
-    "video/x-m4v",
-    "video/quicktime",
-    "video/mpeg"
-]
+from .. import data, video_mimetype
+from ..utils.database.add_user import AddUserToDatabase
+from ..utils.helper import check_chat
+from ..utils.tasks import handle_tasks
 
 
 @Client.on_message(filters.incoming & (filters.video | filters.document))
 async def encode_video(app, message):
-    check = await check_user(message)
-    if not check:
+    c = await check_chat(message, chat='Both')
+    if not c:
         return
+    await AddUserToDatabase(app, message)
     if message.document:
         if not message.document.mime_type in video_mimetype:
             return
     data.append(message)
     if len(data) == 1:
-        await handle_task(message)
+        await handle_tasks(message, 'tg')
     else:
-        await message.reply("<code>Added to queue...</code>")
+        await message.reply("📔 Waiting for queue...")
+    await asyncio.sleep(1)
+
+
+@Client.on_message(filters.command('ddl'))
+async def url_encode(app, message):
+    c = await check_chat(message, chat='Both')
+    if not c:
+        return
+    await AddUserToDatabase(app, message)
+    data.append(message)
+    if len(message.text.split()) == 1:
+        await message.reply_text("Usage: /ddl [url] | [filename]")
+        data.remove(data[0])
+        return
+    if len(data) == 1:
+        await handle_tasks(message, 'url')
+    else:
+        await message.reply("📔 Waiting for queue...")
+    await asyncio.sleep(1)
+
+
+@Client.on_message(filters.command('batch'))
+async def batch_encode(app, message):
+    c = await check_chat(message, chat='Both')
+    if not c:
+        return
+    await AddUserToDatabase(app, message)
+    data.append(message)
+    if len(message.text.split()) == 1:
+        await message.reply_text("Usage: /batch [url]")
+        data.remove(data[0])
+        return
+    if len(data) == 1:
+        await handle_tasks(message, 'batch')
+    else:
+        await message.reply("📔 Waiting for queue...")
+    await asyncio.sleep(1)

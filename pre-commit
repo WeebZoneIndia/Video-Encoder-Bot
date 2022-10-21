@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.
+# VideoEncoder - a telegram bot for compressing/encoding videos in h264/h265 format.
 # Copyright (c) 2021 WeebTime/VideoEncoder
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 import glob
 
 LICENSE_HEADER = '''
-# VideoEncoder - a telegram bot for compressing/encoding videos in h264 format.
+# VideoEncoder - a telegram bot for compressing/encoding videos in h264/h265 format.
 # Copyright (c) 2021 WeebTime/VideoEncoder
 #
 # This program is free software: you can redistribute it and/or modify
