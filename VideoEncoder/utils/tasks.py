@@ -54,6 +54,7 @@ async def on_task_complete():
     else:
         if message.document:
             if not message.document.mime_type in video_mimetype:
+                await on_task_complete()
                 return
         await handle_tasks(message, 'tg')
 
