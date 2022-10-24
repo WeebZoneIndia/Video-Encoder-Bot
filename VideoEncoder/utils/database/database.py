@@ -31,7 +31,7 @@ class Database:
         return dict(
             id=id,
             join_date=datetime.date.today().isoformat(),
-            extensions='MP4',
+            extensions='MKV',
             hevc=False,
             aspect=False,
             cabac=False,
